@@ -26,6 +26,19 @@ namespace PrintIt.ServiceHost.Controllers
             _pdfPrintService.Print(pdfStream, request.PrinterPath, request.PageRange);
             return Ok();
         }
+
+        [HttpPost]
+        [Route("from-file-path")]
+        public async Task<IActionResult> PrintFromFilePath(string filePath, string printerPath, string pageRange = null)
+        {
+            if (!System.IO.File.Exists(filePath))
+            {
+                return NotFound();
+            }
+            await using Stream pdfStream = System.IO.File.OpenRead(filePath);
+            _pdfPrintService.Print(pdfStream, printerPath, pageRange);
+            return Ok();
+        }
     }
 
     public sealed class PrintFromTemplateRequest
