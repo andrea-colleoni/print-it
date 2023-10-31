@@ -30,6 +30,12 @@ namespace PrintIt.Core
 
             using var printDocument = new PrintDocument();
             printDocument.PrinterSettings.PrinterName = printerName;
+            var pageSettings = new PageSettings();
+            pageSettings.Margins.Bottom = 40; // 40 inch cents => ~ 1 cm
+            pageSettings.Margins.Top = 40;
+            pageSettings.Margins.Left = 40;
+            pageSettings.Margins.Right = 40;
+            printDocument.DefaultPageSettings = new PageSettings();
             PrintState state = PrintStateFactory.Create(document, pageRange);
             printDocument.PrintPage += (_, e) => PrintDocumentOnPrintPage(e, state);
             printDocument.Print();
